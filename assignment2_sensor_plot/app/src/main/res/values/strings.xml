@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">SensorPlot</string>
+    <string name="sensor_name_label">Name:</string>
+    <string name="sensor_vendor_label">Vendor:</string>
+    <string name="sensor_version_label">Version:</string>
+    <string name="sensor_power_label">Power:</string>
+    <string name="sensor_resolution_label">Resolution:</string>
+    <string name="sensor_range_label">Max range:</string>
+    <string name="sensor_reading_label">Reading:</string>
+    <string name="detail_card_title">Details:</string>
+    <string name="cardview_light_label">Light Sensor</string>
+    <string name="action_back_label">Back</string>
+</resources>
