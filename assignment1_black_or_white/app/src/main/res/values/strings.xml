@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Black or White</string>
+    <string name="switch_a_label">A</string>
+    <string name="switch_b_label">B</string>
+    <string name="switch_c_label">C</string>
+    <string name="switch_d_label">D</string>
+    <string name="switch_e_label">E</string>
+    <string name="switch_f_label">F</string>
+    <string name="switch_g_label">G</string>
+    <string name="switch_h_label">H</string>
+    <string name="switch_i_label">I</string>
+    <string name="switch_j_label">J</string>
+    <string name="auto_label">Auto</string>
+    <string name="restart_label">Restart</string>
+    <string name="random_label">Random</string>
+    <string name="zero_count">0</string>
+    <string name="manual_set_done_label">Done Manual Setting</string>
+    <string name="manual_set_label">Manual Editing</string>
+    <string name="animation_transition_time">100</string>
+</resources>

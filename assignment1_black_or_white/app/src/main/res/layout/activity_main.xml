@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="unc.cs.kewang.blackorwhite.MainActivity">
+
+    <GridLayout
+        android:id="@+id/board_grid_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:columnCount="4"
+        android:orientation="horizontal"
+        android:rowCount="4"
+        tools:context=".GridXMLActivity">
+
+        <ImageButton
+            android:id="@+id/board_00"
+            android:layout_width="@dimen/board_element_size"
+            android:layout_height="@dimen/board_element_size"
+            android:layout_margin="1dp"
+            android:onClick="onClickSquare"
+            android:src="@drawable/white" />
+
+        <ImageButton
+            android:id="@+id/board_01"
+            android:layout_width="@dimen/board_element_size"
+            android:layout_height="@dimen/board_element_size"
+            android:layout_margin="1dp"
+            android:onClick="onClickSquare"
+            android:src="@drawable/white" />
+
+        <ImageButton
+            android:id="@+id/board_02"
+            android:layout_width="@dimen/board_element_size"
+            android:layout_height="@dimen/board_element_size"
+            android:layout_margin="1dp"
+            android:onClick="onClickSquare"
+            android:src="@drawable/white" />
+
+        <ImageButton
+            android:id="@+id/board_03"
+            android:layout_width="@dimen/board_element_size"
+            android:layout_height="@dimen/board_element_size"
+            android:layout_margin="1dp"
+            android:onClick="onClickSquare"
+            android:src="@drawable/white" />
+
+        <ImageButton
+            android:id="@+id/board_04"
+            android:layout_width="@dimen/board_element_size"
+            android:layout_height="@dimen/board_element_size"
+            android:layout_margin="1dp"
+            android:onClick="onClickSquare"
+            android:src="@drawable/white" />
+
+        <ImageButton
+            android:id="@+id/board_05"
+            android:layout_width="@dimen/board_element_size"
+            android:layout_height="@dimen/board_element_size"
+            android:layout_margin="1dp"
+            android:onClick="onClickSquare"
+            android:src="@drawable/white" />
+
+        <ImageButton
+            android:id="@+id/board_06"
+            android:layout_width="@dimen/board_element_size"
+            android:layout_height="@dimen/board_element_size"
+            android:layout_margin="1dp"
+            android:onClick="onClickSquare"
+            android:src="@drawable/white" />
+
+        <ImageButton
+            android:id="@+id/board_07"
+            android:layout_width="@dimen/board_element_size"
+            android:layout_height="@dimen/board_element_size"
+            android:layout_margin="1dp"
+            android:onClick="onClickSquare"
+            android:src="@drawable/white" />
+
+        <ImageButton
+            android:id="@+id/board_08"
+            android:layout_width="@dimen/board_element_size"
+            android:layout_height="@dimen/board_element_size"
+            android:layout_margin="1dp"
+            android:onClick="onClickSquare"
+            android:src="@drawable/white" />
+
+        <ImageButton
+            android:id="@+id/board_09"
+            android:layout_width="@dimen/board_element_size"
+            android:layout_height="@dimen/board_element_size"
+            android:layout_margin="1dp"
+            android:onClick="onClickSquare"
+            android:src="@drawable/white" />
+
+        <ImageButton
+            android:id="@+id/board_10"
+            android:layout_width="@dimen/board_element_size"
+            android:layout_height="@dimen/board_element_size"
+            android:layout_margin="1dp"
+            android:onClick="onClickSquare"
+            android:src="@drawable/white" />
+
+        <ImageButton
+            android:id="@+id/board_11"
+            android:layout_width="@dimen/board_element_size"
+            android:layout_height="@dimen/board_element_size"
+            android:layout_margin="1dp"
+            android:onClick="onClickSquare"
+            android:src="@drawable/white" />
+
+        <ImageButton
+            android:id="@+id/board_12"
+            android:layout_width="@dimen/board_element_size"
+            android:layout_height="@dimen/board_element_size"
+            android:layout_margin="1dp"
+            android:onClick="onClickSquare"
+            android:src="@drawable/white" />
+
+        <ImageButton
+            android:id="@+id/board_13"
+            android:layout_width="@dimen/board_element_size"
+            android:layout_height="@dimen/board_element_size"
+            android:layout_margin="1dp"
+            android:onClick="onClickSquare"
+            android:src="@drawable/white" />
+
+        <ImageButton
+            android:id="@+id/board_14"
+            android:layout_width="@dimen/board_element_size"
+            android:layout_height="@dimen/board_element_size"
+            android:layout_margin="1dp"
+            android:onClick="onClickSquare"
+            android:src="@drawable/white" />
+
+        <ImageButton
+            android:id="@+id/board_15"
+            android:layout_width="@dimen/board_element_size"
+            android:layout_height="@dimen/board_element_size"
+            android:layout_margin="1dp"
+            android:onClick="onClickSquare"
+            android:src="@drawable/white" />
+    </GridLayout>
+
+
+    <LinearLayout
+        android:id="@+id/info_linear_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_sequence"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:ellipsize="start"
+            android:hint="Switch history."
+            android:maxLines="1"
+            android:scrollHorizontally="true"
+            android:textColor="@android:color/primary_text_light"
+            android:textSize="25sp" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/tv_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/zero_count"
+            android:textColor="@android:color/primary_text_light"
+            android:textSize="25sp" />
+
+
+    </LinearLayout>
+
+    <GridLayout
+        android:id="@+id/switch_grid_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:columnCount="5"
+        android:orientation="horizontal"
+        android:rowCount="2"
+        tools:context=".GridXMLActivity">
+
+        <Button
+            android:id="@+id/switch_a"
+            android:layout_columnWeight="1"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:onClick="onClickSwitch"
+            android:text="@string/switch_a_label" />
+
+        <Button
+            android:id="@+id/switch_b"
+            android:layout_columnWeight="1"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:onClick="onClickSwitch"
+            android:text="@string/switch_b_label" />
+
+        <Button
+            android:id="@+id/switch_c"
+            android:layout_columnWeight="1"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:onClick="onClickSwitch"
+            android:text="@string/switch_c_label" />
+
+        <Button
+            android:id="@+id/switch_d"
+            android:layout_columnWeight="1"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:onClick="onClickSwitch"
+            android:text="@string/switch_d_label" />
+
+        <Button
+            android:id="@+id/switch_e"
+            android:layout_columnWeight="1"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:onClick="onClickSwitch"
+            android:text="@string/switch_e_label" />
+
+        <Button
+            android:id="@+id/switch_f"
+            android:layout_columnWeight="1"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:onClick="onClickSwitch"
+            android:text="@string/switch_f_label" />
+
+        <Button
+            android:id="@+id/switch_g"
+            android:layout_columnWeight="1"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:onClick="onClickSwitch"
+            android:text="@string/switch_g_label" />
+
+        <Button
+            android:id="@+id/switch_h"
+            android:layout_columnWeight="1"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:onClick="onClickSwitch"
+            android:text="@string/switch_h_label" />
+
+        <Button
+            android:id="@+id/switch_i"
+            android:layout_columnWeight="1"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:onClick="onClickSwitch"
+            android:text="@string/switch_i_label" />
+
+        <Button
+            android:id="@+id/switch_j"
+            android:layout_columnWeight="1"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:onClick="onClickSwitch"
+            android:text="@string/switch_j_label" />
+    </GridLayout>
+
+    <GridLayout
+        android:id="@+id/control_grid_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="3"
+        android:orientation="horizontal"
+        android:rowCount="1"
+        tools:context=".GridXMLActivity">
+
+        <Button
+            android:id="@+id/random_restart_button"
+            android:layout_columnWeight="1"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:onClick="onClickRandomRestart"
+            android:text="@string/random_label" />
+
+        <Button
+            android:id="@+id/restart_button"
+            android:layout_columnWeight="1"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:onClick="onClickRestart"
+            android:text="@string/restart_label" />
+
+        <Button
+            android:id="@+id/auto_button"
+            android:layout_columnWeight="1"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:onClick="onClickAuto"
+            android:text="@string/auto_label" />
+    </GridLayout>
+
+    <Button
+        android:id="@+id/manual_set_done_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:onClick="onClickManualSetDone"
+        android:text="@string/manual_set_done_label" />
+
+</LinearLayout>
