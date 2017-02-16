@@ -9,5 +9,9 @@
     <string name="sensor_reading_label">Reading:</string>
     <string name="detail_card_title">Details:</string>
     <string name="cardview_light_label">Light Sensor</string>
+    <string name="cardview_orientation_label">Orientation</string>
+    <string name="cardview_acc_label">Accelerometer</string>
+    <string name="cardview_gyro_label">Gyro</string>
+    <string name="cardview_magnetic_label">Magnetic Field</string>
     <string name="action_back_label">Back</string>
 </resources>

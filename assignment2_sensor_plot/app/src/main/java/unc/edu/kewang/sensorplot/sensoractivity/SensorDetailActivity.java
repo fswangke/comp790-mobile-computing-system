@@ -1,9 +1,6 @@
-package unc.edu.kewang.sensorplot;
+package unc.edu.kewang.sensorplot.sensoractivity;
 
-import android.app.ActionBar;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Canvas;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -11,8 +8,6 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,23 +15,46 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import unc.edu.kewang.sensorplot.MainActivity;
+import unc.edu.kewang.sensorplot.R;
+import unc.edu.kewang.sensorplot.sensorview.*;
+
 public class SensorDetailActivity extends AppCompatActivity implements SensorEventListener {
     public static final String EXTRA_KEY = "SENSOR_TYPE";
-    private SensorManager mSensorManager;
-    private Sensor mSensor = null;
-    private int mSensorType = Sensor.TYPE_ALL;
-    private SensorPlotView mSensorPlotView;
+    protected SensorManager mSensorManager;
+    protected Sensor mSensor = null;
+    protected int mSensorType = Sensor.TYPE_ALL;
+    protected ScalarSensor2DPlotView mScalarPlot;
+    protected VectorSensor2DPlotView mVectorPlot;
+    protected boolean mDisplayStatistics;
+    protected CardView mAnimationCardView;
+    protected CardView mSensorPlotCardView;
 
-    private TextView tvtv;
-
+    @Override
     protected void onResume() {
         super.onResume();
         mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
+    @Override
     protected void onPause() {
         super.onPause();
         mSensorManager.unregisterListener(this);
+    }
+
+    public void onSwitchPlot(View view) {
+        if (mSensorType == Sensor.TYPE_LIGHT) {
+            return;
+        }
+        if (mDisplayStatistics) {
+            mDisplayStatistics = false;
+            mSensorPlotCardView.removeView(mScalarPlot);
+            mSensorPlotCardView.addView(mVectorPlot);
+        } else {
+            mDisplayStatistics = true;
+            mSensorPlotCardView.addView(mScalarPlot);
+            mSensorPlotCardView.removeView(mVectorPlot);
+        }
     }
 
     @Override
@@ -48,9 +66,6 @@ public class SensorDetailActivity extends AppCompatActivity implements SensorEve
         Intent intent = getIntent();
         if (intent.hasExtra(EXTRA_KEY)) {
             mSensorType = intent.getIntExtra(EXTRA_KEY, Sensor.TYPE_ALL);
-        }
-        if (mSensorType == Sensor.TYPE_ALL) {
-            Log.e("TAG", "ERROR!");
         }
         mSensor = mSensorManager.getDefaultSensor(mSensorType);
 
@@ -67,50 +82,55 @@ public class SensorDetailActivity extends AppCompatActivity implements SensorEve
         tv = (TextView) findViewById(R.id.tv_sensor_range_value);
         tv.setText(String.valueOf(mSensor.getMaximumRange()));
 
-        LinearLayout rootLinearLayout = (LinearLayout) findViewById(R.id.sensor_detail_root_linear_layout);
-        LayoutInflater layoutInflater = getLayoutInflater();
-        CardView cardView = (CardView) layoutInflater.inflate(R.layout.empty_cardview, null);
-        final float DP = getResources().getDisplayMetrics().density;
-        final float FLOAT_DP_4 = DP * 4;
-        final int INT_DP_4 = (int) (FLOAT_DP_4 + 0.5);
-        final int INT_DP_8 = (int) (DP * 8 + 0.5);
-        cardView.setRadius(FLOAT_DP_4);
-        cardView.setPadding(INT_DP_8, INT_DP_8, INT_DP_8, INT_DP_8);
-        cardView.setContentPadding(INT_DP_4, INT_DP_4, INT_DP_4, INT_DP_4);
-        mSensorPlotView = new SensorPlotView(this);
-        cardView.addView(mSensorPlotView);
-        tvtv = new TextView(this);
-        cardView.addView(tvtv);
-        rootLinearLayout.addView(cardView);
+        mScalarPlot = new ScalarSensor2DPlotView(this);
+        mVectorPlot = new VectorSensor2DPlotView(this);
 
-        ActionBar actionBar = getActionBar();
+        mAnimationCardView = (CardView) findViewById(R.id.animation_card);
+        mSensorPlotCardView = (CardView) findViewById(R.id.scalar_plot_card);
+
+        // Animated views have derived classes
+        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.sensor_detail_root_linear_layout);
+        linearLayout.removeView(mAnimationCardView);
+
+        mDisplayStatistics = true;
+        mSensorPlotCardView.addView(mScalarPlot);
+
         String title = "SensorPlot";
         switch (mSensorType) {
-            case Sensor.TYPE_ACCELEROMETER:
-                title = "Accelerometer";
-                break;
             case Sensor.TYPE_GYROSCOPE:
                 title = "Gyroscope";
+                mScalarPlot.setUnits("", "rad/s");
+                mVectorPlot.setUnits("", "rad/s");
+                mScalarPlot.setLegends(new String[]{"Rotation", "Mean", "Std"});
+                mVectorPlot.setLegends(new String[]{"X", "Y", "Z"});
                 break;
-            case Sensor.TYPE_LIGHT:
-                title = "Light";
+            case Sensor.TYPE_MAGNETIC_FIELD:
+                title = "Magnetic Field";
+                mScalarPlot.setUnits("", "uT");
+                mVectorPlot.setUnits("", "uT");
+                mScalarPlot.setLegends(new String[]{"Magnetic", "Mean", "Std"});
+                mVectorPlot.setLegends(new String[]{"X", "Y", "Z"});
                 break;
             default:
                 title = "SensorPlot";
                 break;
-        }
-        if (actionBar != null) {
         }
         setTitle(title);
     }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        tvtv.setText(String.valueOf(event.values[0]));
-        if (mSensorType == Sensor.TYPE_ACCELEROMETER) {
-            mSensorPlotView.addData((float) Math.sqrt(event.values[0] * event.values[0] + event.values[1] * event.values[1] + event.values[2] * event.values[2]));
-        } else {
-            mSensorPlotView.addData(event.values[0]);
+        switch (mSensorType) {
+            case Sensor.TYPE_GYROSCOPE:
+            case Sensor.TYPE_MAGNETIC_FIELD:
+                mScalarPlot.addData((float) Math.sqrt(
+                        event.values[0] * event.values[0]
+                                + event.values[1] * event.values[1]
+                                + event.values[2] * event.values[2]));
+                mVectorPlot.addData(event.values[0], event.values[1], event.values[2]);
+                break;
+            default:
+                break;
         }
     }
 
