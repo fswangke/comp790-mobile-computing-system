@@ -32,6 +32,7 @@ public class LightSensorDetailActivity extends SensorDetailActivity implements S
             mSensorType = intent.getIntExtra(EXTRA_KEY, Sensor.TYPE_ALL);
         }
         mSensor = mSensorManager.getDefaultSensor(mSensorType);
+        mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_UI);
 
         mAnimationCardView = (CardView) findViewById(R.id.animation_card);
         mSensorPlotCardView = (CardView) findViewById(R.id.scalar_plot_card);

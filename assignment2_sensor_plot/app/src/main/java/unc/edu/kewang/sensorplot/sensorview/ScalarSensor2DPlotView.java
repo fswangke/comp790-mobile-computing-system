@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.support.v4.util.CircularArray;
+import android.util.AttributeSet;
 
 
 public class ScalarSensor2DPlotView extends Sensor2DPlotView {
@@ -22,11 +23,10 @@ public class ScalarSensor2DPlotView extends Sensor2DPlotView {
     Path mMeanPath;
     Path mStdPath;
 
-    public ScalarSensor2DPlotView(Context context) {
-        super(context);
-        mData = new CircularArray<Float>(MAX_DATA_POINT);
-        mMean = new CircularArray<Float>(MAX_DATA_POINT);
-        mStd = new CircularArray<Float>(MAX_DATA_POINT);
+    private void setup() {
+        mData = new CircularArray<>(MAX_DATA_POINT);
+        mMean = new CircularArray<>(MAX_DATA_POINT);
+        mStd = new CircularArray<>(MAX_DATA_POINT);
         mDataPaint = new Paint();
         mDataPaint.setColor(Color.RED);
         mDataPaint.setStyle(Paint.Style.STROKE);
@@ -42,6 +42,26 @@ public class ScalarSensor2DPlotView extends Sensor2DPlotView {
         mDataPath = new Path();
         mMeanPath = new Path();
         mStdPath = new Path();
+    }
+
+    public ScalarSensor2DPlotView(Context context) {
+        super(context);
+        setup();
+    }
+
+    public ScalarSensor2DPlotView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        setup();
+    }
+
+    public ScalarSensor2DPlotView(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        setup();
+    }
+
+    public ScalarSensor2DPlotView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
+        setup();
     }
 
     public void addData(final float data) {

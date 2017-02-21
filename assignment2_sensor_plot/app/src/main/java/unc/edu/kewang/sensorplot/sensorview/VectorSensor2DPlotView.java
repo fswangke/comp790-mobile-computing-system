@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.support.v4.util.CircularArray;
+import android.util.AttributeSet;
 
 public class VectorSensor2DPlotView extends Sensor2DPlotView {
     CircularArray<Float> mX;
@@ -18,11 +19,10 @@ public class VectorSensor2DPlotView extends Sensor2DPlotView {
     Path mYPath;
     Path mZPath;
 
-    public VectorSensor2DPlotView(Context context) {
-        super(context);
-        mX = new CircularArray<Float>(MAX_DATA_POINT);
-        mY = new CircularArray<Float>(MAX_DATA_POINT);
-        mZ = new CircularArray<Float>(MAX_DATA_POINT);
+    private void setup() {
+        mX = new CircularArray<>(MAX_DATA_POINT);
+        mY = new CircularArray<>(MAX_DATA_POINT);
+        mZ = new CircularArray<>(MAX_DATA_POINT);
         mXPaint = new Paint();
         mXPaint.setColor(Color.RED);
         mXPaint.setStyle(Paint.Style.STROKE);
@@ -38,6 +38,26 @@ public class VectorSensor2DPlotView extends Sensor2DPlotView {
         mXPath = new Path();
         mYPath = new Path();
         mZPath = new Path();
+    }
+
+    public VectorSensor2DPlotView(Context context) {
+        super(context);
+        setup();
+    }
+
+    public VectorSensor2DPlotView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        setup();
+    }
+
+    public VectorSensor2DPlotView(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        setup();
+    }
+
+    public VectorSensor2DPlotView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
+        setup();
     }
 
     public void addData(final float x, final float y, final float z) {

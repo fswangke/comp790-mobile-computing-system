@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.util.AttributeSet;
 import android.view.View;
 
 
@@ -169,9 +170,7 @@ class Sensor2DPlotView extends View {
         this.mLegendTextPaint.setTextSize(mLegendLabelSize);
     }
 
-
-    Sensor2DPlotView(Context context) {
-        super(context);
+    private void setup() {
         mGridDashedLinePaint = new Paint();
         mGridDashedLinePaint.setARGB(128, 0, 0, 0);
         mGridDashedLinePaint.setStyle(Paint.Style.STROKE);
@@ -191,6 +190,26 @@ class Sensor2DPlotView extends View {
         mLegendPaint.setStyle(Paint.Style.FILL);
         mLegendPaint.setARGB(100, 0, 0, 0);
         mLegends = new String[3];
+    }
+
+    public Sensor2DPlotView(Context context) {
+        super(context);
+        setup();
+    }
+
+    public Sensor2DPlotView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        setup();
+    }
+
+    public Sensor2DPlotView(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        setup();
+    }
+
+    public Sensor2DPlotView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
+        setup();
     }
 }
 

@@ -35,6 +35,7 @@ public class OrientationSensorDetailActivity extends SensorDetailActivity implem
             Log.e("TAG", "ERROR!");
         }
         mSensor = mSensorManager.getDefaultSensor(mSensorType);
+        mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_UI);
 
         mAnimationCardView = (CardView) findViewById(R.id.animation_card);
         mSensorPlotCardView = (CardView) findViewById(R.id.scalar_plot_card);

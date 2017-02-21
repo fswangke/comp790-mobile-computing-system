@@ -33,7 +33,7 @@ public class SensorDetailActivity extends AppCompatActivity implements SensorEve
     @Override
     protected void onResume() {
         super.onResume();
-        mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(this, mSensor, MainActivity.SENSOR_SAMPLE_DELAY_IN_US);
     }
 
     @Override
@@ -68,6 +68,7 @@ public class SensorDetailActivity extends AppCompatActivity implements SensorEve
             mSensorType = intent.getIntExtra(EXTRA_KEY, Sensor.TYPE_ALL);
         }
         mSensor = mSensorManager.getDefaultSensor(mSensorType);
+        mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_UI);
 
         TextView tv = (TextView) findViewById(R.id.tv_sensor_name_value);
         tv.setText(mSensor.getName());
@@ -95,7 +96,7 @@ public class SensorDetailActivity extends AppCompatActivity implements SensorEve
         mDisplayStatistics = true;
         mSensorPlotCardView.addView(mScalarPlot);
 
-        String title = "SensorPlot";
+        String title;
         switch (mSensorType) {
             case Sensor.TYPE_GYROSCOPE:
                 title = "Gyroscope";

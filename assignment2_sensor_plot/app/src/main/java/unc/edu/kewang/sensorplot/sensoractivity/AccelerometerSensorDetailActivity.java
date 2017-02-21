@@ -13,6 +13,7 @@ import android.support.v7.widget.CardView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import unc.edu.kewang.sensorplot.MainActivity;
 import unc.edu.kewang.sensorplot.R;
 import unc.edu.kewang.sensorplot.sensorview.ScalarSensor2DPlotView;
 import unc.edu.kewang.sensorplot.sensorview.VectorSensor2DPlotView;
@@ -34,6 +35,7 @@ public class AccelerometerSensorDetailActivity extends SensorDetailActivity impl
             mSensorType = intent.getIntExtra(EXTRA_KEY, Sensor.TYPE_ALL);
         }
         mSensor = mSensorManager.getDefaultSensor(mSensorType);
+        mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_UI);
 
         mAnimationCardView = (CardView) findViewById(R.id.animation_card);
         mSensorPlotCardView = (CardView) findViewById(R.id.scalar_plot_card);

@@ -13,6 +13,7 @@ import android.widget.TextView;
 import unc.edu.kewang.sensorplot.sensoractivity.*;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
+    public static final int SENSOR_SAMPLE_DELAY_IN_US = 1000000;
     private SensorManager mSensorManager;
     private Sensor mOrientationSensor;
     private Sensor mLightSensor;
@@ -40,6 +41,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         mGyroSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
         mMagneticSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
         mLinearAccSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
+
+        mSensorManager.registerListener(this, mLightSensor, SensorManager.SENSOR_DELAY_UI);
+        mSensorManager.registerListener(this, mAccSensor, SensorManager.SENSOR_DELAY_UI);
+        mSensorManager.registerListener(this, mLinearAccSensor, SensorManager.SENSOR_DELAY_UI);
+        mSensorManager.registerListener(this, mGyroSensor, SensorManager.SENSOR_DELAY_UI);
+        mSensorManager.registerListener(this, mMagneticSensor, SensorManager.SENSOR_DELAY_UI);
+        mSensorManager.registerListener(this, mOrientationSensor, SensorManager.SENSOR_DELAY_UI);
 
         // Setup orientation sensor reading
         TextView tv = (TextView) findViewById(R.id.tv_orientation_sensor_name_value);
@@ -181,12 +189,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     protected void onResume() {
         super.onResume();
-        mSensorManager.registerListener(this, mLightSensor, SensorManager.SENSOR_DELAY_NORMAL);
-        mSensorManager.registerListener(this, mAccSensor, SensorManager.SENSOR_DELAY_NORMAL);
-        mSensorManager.registerListener(this, mLinearAccSensor, SensorManager.SENSOR_DELAY_NORMAL);
-        mSensorManager.registerListener(this, mGyroSensor, SensorManager.SENSOR_DELAY_NORMAL);
-        mSensorManager.registerListener(this, mMagneticSensor, SensorManager.SENSOR_DELAY_NORMAL);
-        mSensorManager.registerListener(this, mOrientationSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(this, mLightSensor, SensorManager.SENSOR_DELAY_UI);
+        mSensorManager.registerListener(this, mAccSensor, SensorManager.SENSOR_DELAY_UI);
+        mSensorManager.registerListener(this, mLinearAccSensor, SensorManager.SENSOR_DELAY_UI);
+        mSensorManager.registerListener(this, mGyroSensor, SensorManager.SENSOR_DELAY_UI);
+        mSensorManager.registerListener(this, mMagneticSensor, SensorManager.SENSOR_DELAY_UI);
+        mSensorManager.registerListener(this, mOrientationSensor, SensorManager.SENSOR_DELAY_UI);
     }
 
     @Override
