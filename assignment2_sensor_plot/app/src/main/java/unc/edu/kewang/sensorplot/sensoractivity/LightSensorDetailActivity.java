@@ -32,7 +32,7 @@ public class LightSensorDetailActivity extends SensorDetailActivity implements S
             mSensorType = intent.getIntExtra(EXTRA_KEY, Sensor.TYPE_ALL);
         }
         mSensor = mSensorManager.getDefaultSensor(mSensorType);
-        mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_UI);
+        mSensorManager.registerListener(this, mSensor, SENSOR_SAMPLE_DELAY_IN_MICROSECONDS);
 
         mAnimationCardView = (CardView) findViewById(R.id.animation_card);
         mSensorPlotCardView = (CardView) findViewById(R.id.scalar_plot_card);
@@ -40,15 +40,15 @@ public class LightSensorDetailActivity extends SensorDetailActivity implements S
         TextView tv = (TextView) findViewById(R.id.tv_sensor_name_value);
         tv.setText(mSensor.getName());
         tv = (TextView) findViewById(R.id.tv_sensor_power_value);
-        tv.setText(String.valueOf(mSensor.getPower()));
+        tv.setText(String.valueOf(mSensor.getPower() + " mA"));
         tv = (TextView) findViewById(R.id.tv_sensor_vendor_value);
         tv.setText(mSensor.getVendor());
         tv = (TextView) findViewById(R.id.tv_sensor_version_value);
         tv.setText(String.valueOf(mSensor.getVersion()));
         tv = (TextView) findViewById(R.id.tv_sensor_resolution_value);
-        tv.setText(String.valueOf(mSensor.getResolution()));
+        tv.setText(String.valueOf(mSensor.getResolution() + " lx"));
         tv = (TextView) findViewById(R.id.tv_sensor_range_value);
-        tv.setText(String.valueOf(mSensor.getMaximumRange()));
+        tv.setText(String.valueOf(mSensor.getMaximumRange() + " lx"));
 
         mScalarPlot = new ScalarSensor2DPlotView(this);
 
@@ -56,7 +56,7 @@ public class LightSensorDetailActivity extends SensorDetailActivity implements S
         mSensorPlotCardView.addView(mScalarPlot);
 
         String title = "Light";
-        mScalarPlot.setUnits("", "lx");
+        mScalarPlot.setUnits("Sec", "lx");
         mScalarPlot.setLegends(new String[]{"Lux", "Mean", "Std"});
         setTitle(title);
 

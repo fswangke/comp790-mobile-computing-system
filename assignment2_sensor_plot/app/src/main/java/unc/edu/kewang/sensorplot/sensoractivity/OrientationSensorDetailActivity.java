@@ -35,7 +35,7 @@ public class OrientationSensorDetailActivity extends SensorDetailActivity implem
             Log.e("TAG", "ERROR!");
         }
         mSensor = mSensorManager.getDefaultSensor(mSensorType);
-        mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_UI);
+        mSensorManager.registerListener(this, mSensor, SENSOR_SAMPLE_DELAY_IN_MICROSECONDS);
 
         mAnimationCardView = (CardView) findViewById(R.id.animation_card);
         mSensorPlotCardView = (CardView) findViewById(R.id.scalar_plot_card);
@@ -43,15 +43,15 @@ public class OrientationSensorDetailActivity extends SensorDetailActivity implem
         TextView tv = (TextView) findViewById(R.id.tv_sensor_name_value);
         tv.setText(mSensor.getName());
         tv = (TextView) findViewById(R.id.tv_sensor_power_value);
-        tv.setText(String.valueOf(mSensor.getPower()));
+        tv.setText(String.valueOf(mSensor.getPower() + " mA"));
         tv = (TextView) findViewById(R.id.tv_sensor_vendor_value);
         tv.setText(mSensor.getVendor());
         tv = (TextView) findViewById(R.id.tv_sensor_version_value);
         tv.setText(String.valueOf(mSensor.getVersion()));
         tv = (TextView) findViewById(R.id.tv_sensor_resolution_value);
-        tv.setText(String.valueOf(mSensor.getResolution()));
+        tv.setText(String.valueOf(mSensor.getResolution() + " degrees"));
         tv = (TextView) findViewById(R.id.tv_sensor_range_value);
-        tv.setText(String.valueOf(mSensor.getMaximumRange()));
+        tv.setText(String.valueOf(mSensor.getMaximumRange() + " degrees"));
 
         mScalarPlot = new ScalarSensor2DPlotView(this);
         mVectorPlot = new VectorSensor2DPlotView(this);
@@ -60,8 +60,8 @@ public class OrientationSensorDetailActivity extends SensorDetailActivity implem
         mSensorPlotCardView.addView(mScalarPlot);
 
         String title = "Orientation";
-        mScalarPlot.setUnits("", "degrees");
-        mVectorPlot.setUnits("", "degrees");
+        mScalarPlot.setUnits("Sec", "degrees");
+        mVectorPlot.setUnits("Sec", "degrees");
         mScalarPlot.setLegends(new String[]{"Orientation", "Mean", "Std"});
         mVectorPlot.setLegends(new String[]{"X", "Y", "Z"});
         setTitle(title);

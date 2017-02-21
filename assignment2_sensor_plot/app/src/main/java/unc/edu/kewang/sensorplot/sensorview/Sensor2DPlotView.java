@@ -6,12 +6,14 @@ import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.os.Handler;
+import android.support.v4.util.CircularArray;
 import android.util.AttributeSet;
 import android.view.View;
 
 
 class Sensor2DPlotView extends View {
-    protected final static int MAX_DATA_POINT = 150;
+    protected final static int MAX_DATA_POINT = 100;
     protected int mPlotWidth = 0;
     protected int mPlotHeight = 0;
     protected int mPlotHorizontalOffset = 0;
@@ -21,13 +23,13 @@ class Sensor2DPlotView extends View {
     protected int mLegendRadius = 3;
     protected int mLegendLeftPosition = 0;
     protected int mLegendTopPosition = 0;
-    protected float mScaleX = 0.0f;
+    protected long mScaleX = 0L;
     protected float mScaleY = 0.0f;
     protected float mMarginRatio = 0.1f;
     protected float mMaxY = 0.0f;
     protected float mMinY = 0.0f;
-    protected float mMinX = 0.0f;
-    protected float mMaxX = 0.0f;
+    protected long mMinX = 0L;
+    protected long mMaxX = 0L;
     protected static final float LINE_WIDTH = 4.5f;
     protected static final float TEXT_FONT_SIZE = 35.0f;
     protected Paint mGridDashedLinePaint;
@@ -37,16 +39,19 @@ class Sensor2DPlotView extends View {
     protected Paint mLegendLabelPaint;
     protected Path mGridPath;
     protected static final int GRID_NUMBER = 4;
-    protected String mXUnit;
-    protected String mYUnit;
+    protected String mXUnit = "sec";
+    protected String mYUnit = "";
     protected String[] mLegends;
-    protected int mTotalDataCount = 0;
+    protected Handler mHandler;
+    protected Runnable mRunnable;
+    protected long mStartupTime;
+    protected CircularArray<Long> mRelativeDataInsertionTime;
 
-    public void setXUint(String xUnit) {
+    public void setXUnit(String xUnit) {
         this.mXUnit = xUnit;
     }
 
-    public void setYUint(String yUnit) {
+    public void setYUnit(String yUnit) {
         this.mYUnit = yUnit;
     }
 
@@ -60,7 +65,7 @@ class Sensor2DPlotView extends View {
     }
 
     protected float getCanvasXForValueX(final float valueX) {
-        return (valueX) / mScaleX * mPlotWidth + mPlotHorizontalOffset;
+        return (valueX - mMinX) / mScaleX * mPlotWidth + mPlotHorizontalOffset;
     }
 
     protected float getCanvasYForValueY(final float valueY) {
@@ -148,13 +153,13 @@ class Sensor2DPlotView extends View {
             if (col_index % 2 == 0) {
                 float axisValue = mMinX + mScaleX * col_index / GRID_NUMBER;
                 canvas.drawText(
-                        String.format("%d", (int) axisValue),
-                        getCanvasXForValueX(axisValue - mMinX),
+                        String.format("%2.2f", axisValue / 1000),
+                        getCanvasXForValueX(axisValue),
                         (int) (mPlotHeight + mPlotVerticalOffset * 1.5),
                         mAxisTextPaint);
             }
         }
-        canvas.drawText(mXUnit, getCanvasXForValueX(mMaxX + mScaleX * 0.05f), (int) (mPlotHeight + mPlotVerticalOffset * 1.5), mAxisTextPaint);
+        canvas.drawText(mXUnit, getCanvasXForValueX(mMaxX - mScaleX * 0.05f), (int) (mPlotHeight + mPlotVerticalOffset * 1.8), mAxisTextPaint);
         canvas.drawText(mYUnit, mPlotHorizontalOffset / 5, getCanvasYForValueY(mMaxY + mScaleY * 0.05f), mAxisTextPaint);
     }
 

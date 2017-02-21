@@ -20,6 +20,8 @@ import unc.edu.kewang.sensorplot.R;
 import unc.edu.kewang.sensorplot.sensorview.*;
 
 public class SensorDetailActivity extends AppCompatActivity implements SensorEventListener {
+    public static final int SENSOR_SAMPLE_DELAY_IN_MILLISECONDS = 50;
+    public static final int SENSOR_SAMPLE_DELAY_IN_MICROSECONDS = SENSOR_SAMPLE_DELAY_IN_MILLISECONDS * 1000;
     public static final String EXTRA_KEY = "SENSOR_TYPE";
     protected SensorManager mSensorManager;
     protected Sensor mSensor = null;
@@ -33,7 +35,7 @@ public class SensorDetailActivity extends AppCompatActivity implements SensorEve
     @Override
     protected void onResume() {
         super.onResume();
-        mSensorManager.registerListener(this, mSensor, MainActivity.SENSOR_SAMPLE_DELAY_IN_US);
+        mSensorManager.registerListener(this, mSensor, SENSOR_SAMPLE_DELAY_IN_MICROSECONDS);
     }
 
     @Override
@@ -68,20 +70,7 @@ public class SensorDetailActivity extends AppCompatActivity implements SensorEve
             mSensorType = intent.getIntExtra(EXTRA_KEY, Sensor.TYPE_ALL);
         }
         mSensor = mSensorManager.getDefaultSensor(mSensorType);
-        mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_UI);
-
-        TextView tv = (TextView) findViewById(R.id.tv_sensor_name_value);
-        tv.setText(mSensor.getName());
-        tv = (TextView) findViewById(R.id.tv_sensor_power_value);
-        tv.setText(String.valueOf(mSensor.getPower()));
-        tv = (TextView) findViewById(R.id.tv_sensor_vendor_value);
-        tv.setText(mSensor.getVendor());
-        tv = (TextView) findViewById(R.id.tv_sensor_version_value);
-        tv.setText(String.valueOf(mSensor.getVersion()));
-        tv = (TextView) findViewById(R.id.tv_sensor_resolution_value);
-        tv.setText(String.valueOf(mSensor.getResolution()));
-        tv = (TextView) findViewById(R.id.tv_sensor_range_value);
-        tv.setText(String.valueOf(mSensor.getMaximumRange()));
+        mSensorManager.registerListener(this, mSensor, SENSOR_SAMPLE_DELAY_IN_MICROSECONDS);
 
         mScalarPlot = new ScalarSensor2DPlotView(this);
         mVectorPlot = new VectorSensor2DPlotView(this);
@@ -97,26 +86,43 @@ public class SensorDetailActivity extends AppCompatActivity implements SensorEve
         mSensorPlotCardView.addView(mScalarPlot);
 
         String title;
+        String units;
         switch (mSensorType) {
             case Sensor.TYPE_GYROSCOPE:
                 title = "Gyroscope";
-                mScalarPlot.setUnits("", "rad/s");
-                mVectorPlot.setUnits("", "rad/s");
+                units = "rad/s";
+                mScalarPlot.setUnits("Sec", units);
+                mVectorPlot.setUnits("Sec", units);
                 mScalarPlot.setLegends(new String[]{"Rotation", "Mean", "Std"});
                 mVectorPlot.setLegends(new String[]{"X", "Y", "Z"});
                 break;
             case Sensor.TYPE_MAGNETIC_FIELD:
                 title = "Magnetic Field";
-                mScalarPlot.setUnits("", "uT");
-                mVectorPlot.setUnits("", "uT");
+                units = "uT";
+                mScalarPlot.setUnits("Sec", units);
+                mVectorPlot.setUnits("Sec", units);
                 mScalarPlot.setLegends(new String[]{"Magnetic", "Mean", "Std"});
                 mVectorPlot.setLegends(new String[]{"X", "Y", "Z"});
                 break;
             default:
                 title = "SensorPlot";
+                units = "";
                 break;
         }
         setTitle(title);
+
+        TextView tv = (TextView) findViewById(R.id.tv_sensor_name_value);
+        tv.setText(mSensor.getName());
+        tv = (TextView) findViewById(R.id.tv_sensor_power_value);
+        tv.setText(String.valueOf(mSensor.getPower() + " mA"));
+        tv = (TextView) findViewById(R.id.tv_sensor_vendor_value);
+        tv.setText(mSensor.getVendor());
+        tv = (TextView) findViewById(R.id.tv_sensor_version_value);
+        tv.setText(String.valueOf(mSensor.getVersion()));
+        tv = (TextView) findViewById(R.id.tv_sensor_resolution_value);
+        tv.setText(String.valueOf(mSensor.getResolution() + " " + units));
+        tv = (TextView) findViewById(R.id.tv_sensor_range_value);
+        tv.setText(String.valueOf(mSensor.getMaximumRange() + " " + units));
     }
 
     @Override

@@ -35,7 +35,7 @@ public class AccelerometerSensorDetailActivity extends SensorDetailActivity impl
             mSensorType = intent.getIntExtra(EXTRA_KEY, Sensor.TYPE_ALL);
         }
         mSensor = mSensorManager.getDefaultSensor(mSensorType);
-        mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_UI);
+        mSensorManager.registerListener(this, mSensor, SENSOR_SAMPLE_DELAY_IN_MICROSECONDS);
 
         mAnimationCardView = (CardView) findViewById(R.id.animation_card);
         mSensorPlotCardView = (CardView) findViewById(R.id.scalar_plot_card);
@@ -43,15 +43,15 @@ public class AccelerometerSensorDetailActivity extends SensorDetailActivity impl
         TextView tv = (TextView) findViewById(R.id.tv_sensor_name_value);
         tv.setText(mSensor.getName());
         tv = (TextView) findViewById(R.id.tv_sensor_power_value);
-        tv.setText(String.valueOf(mSensor.getPower()));
+        tv.setText(String.valueOf(mSensor.getPower() + " mA"));
         tv = (TextView) findViewById(R.id.tv_sensor_vendor_value);
         tv.setText(mSensor.getVendor());
         tv = (TextView) findViewById(R.id.tv_sensor_version_value);
         tv.setText(String.valueOf(mSensor.getVersion()));
         tv = (TextView) findViewById(R.id.tv_sensor_resolution_value);
-        tv.setText(String.valueOf(mSensor.getResolution()));
+        tv.setText(String.valueOf(mSensor.getResolution() + " m/s2"));
         tv = (TextView) findViewById(R.id.tv_sensor_range_value);
-        tv.setText(String.valueOf(mSensor.getMaximumRange()));
+        tv.setText(String.valueOf(mSensor.getMaximumRange() + " m/s2"));
 
         mScalarPlot = new ScalarSensor2DPlotView(this);
         mVectorPlot = new VectorSensor2DPlotView(this);
@@ -64,9 +64,9 @@ public class AccelerometerSensorDetailActivity extends SensorDetailActivity impl
             title = "Linear Accelerometer";
         }
 
-        mScalarPlot.setUnits("", "m/s2");
+        mScalarPlot.setUnits("Sec", "m/s2");
         mScalarPlot.setLegends(new String[]{"Acc", "Mean", "Std"});
-        mVectorPlot.setUnits("", "m/s2");
+        mVectorPlot.setUnits("Sec", "m/s2");
         mVectorPlot.setLegends(new String[]{"X", "Y", "Z"});
         setTitle(title);
 

@@ -13,7 +13,6 @@ import android.widget.TextView;
 import unc.edu.kewang.sensorplot.sensoractivity.*;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
-    public static final int SENSOR_SAMPLE_DELAY_IN_US = 1000000;
     private SensorManager mSensorManager;
     private Sensor mOrientationSensor;
     private Sensor mLightSensor;
@@ -53,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         TextView tv = (TextView) findViewById(R.id.tv_orientation_sensor_name_value);
         tv.setText(mOrientationSensor.getName());
         tv = (TextView) findViewById(R.id.tv_orientation_sensor_power_value);
-        tv.setText(String.valueOf(mOrientationSensor.getPower()));
+        tv.setText(String.valueOf(mOrientationSensor.getPower() + " mA"));
         tv = (TextView) findViewById(R.id.tv_orientation_sensor_vendor_value);
         tv.setText(mOrientationSensor.getVendor());
         tv = (TextView) findViewById(R.id.tv_orientation_sensor_version_value);
@@ -67,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         tv = (TextView) findViewById(R.id.tv_light_sensor_name_value);
         tv.setText(mLightSensor.getName());
         tv = (TextView) findViewById(R.id.tv_light_sensor_power_value);
-        tv.setText(String.valueOf(mLightSensor.getPower()));
+        tv.setText(String.valueOf(mLightSensor.getPower() + " mA"));
         tv = (TextView) findViewById(R.id.tv_light_sensor_vendor_value);
         tv.setText(mLightSensor.getVendor());
         tv = (TextView) findViewById(R.id.tv_light_sensor_version_value);
@@ -81,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         tv = (TextView) findViewById(R.id.tv_acc_sensor_name_value);
         tv.setText(mAccSensor.getName());
         tv = (TextView) findViewById(R.id.tv_acc_sensor_power_value);
-        tv.setText(String.valueOf(mAccSensor.getPower()));
+        tv.setText(String.valueOf(mAccSensor.getPower() + " mA"));
         tv = (TextView) findViewById(R.id.tv_acc_sensor_vendor_value);
         tv.setText(mAccSensor.getVendor());
         tv = (TextView) findViewById(R.id.tv_acc_sensor_version_value);
@@ -95,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         tv = (TextView) findViewById(R.id.tv_gyro_sensor_name_value);
         tv.setText(mGyroSensor.getName());
         tv = (TextView) findViewById(R.id.tv_gyro_sensor_power_value);
-        tv.setText(String.valueOf(mGyroSensor.getPower()));
+        tv.setText(String.valueOf(mGyroSensor.getPower() + " mA"));
         tv = (TextView) findViewById(R.id.tv_gyro_sensor_vendor_value);
         tv.setText(mGyroSensor.getVendor());
         tv = (TextView) findViewById(R.id.tv_gyro_sensor_version_value);
@@ -109,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         tv = (TextView) findViewById(R.id.tv_magnetic_sensor_name_value);
         tv.setText(mMagneticSensor.getName());
         tv = (TextView) findViewById(R.id.tv_magnetic_sensor_power_value);
-        tv.setText(String.valueOf(mMagneticSensor.getPower()));
+        tv.setText(String.valueOf(mMagneticSensor.getPower() + " mA"));
         tv = (TextView) findViewById(R.id.tv_magnetic_sensor_vendor_value);
         tv.setText(mMagneticSensor.getVendor());
         tv = (TextView) findViewById(R.id.tv_magnetic_sensor_version_value);
@@ -123,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         tv = (TextView) findViewById(R.id.tv_linear_acc_sensor_name_value);
         tv.setText(mLinearAccSensor.getName());
         tv = (TextView) findViewById(R.id.tv_linear_acc_sensor_power_value);
-        tv.setText(String.valueOf(mLinearAccSensor.getPower()));
+        tv.setText(String.valueOf(mLinearAccSensor.getPower() + " mA"));
         tv = (TextView) findViewById(R.id.tv_linear_acc_sensor_vendor_value);
         tv.setText(mLinearAccSensor.getVendor());
         tv = (TextView) findViewById(R.id.tv_linear_acc_sensor_version_value);

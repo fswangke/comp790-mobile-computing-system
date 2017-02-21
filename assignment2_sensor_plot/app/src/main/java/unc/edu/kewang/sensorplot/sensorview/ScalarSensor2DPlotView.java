@@ -5,8 +5,11 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.os.Handler;
 import android.support.v4.util.CircularArray;
 import android.util.AttributeSet;
+
+import unc.edu.kewang.sensorplot.sensoractivity.SensorDetailActivity;
 
 
 public class ScalarSensor2DPlotView extends Sensor2DPlotView {
@@ -27,6 +30,7 @@ public class ScalarSensor2DPlotView extends Sensor2DPlotView {
         mData = new CircularArray<>(MAX_DATA_POINT);
         mMean = new CircularArray<>(MAX_DATA_POINT);
         mStd = new CircularArray<>(MAX_DATA_POINT);
+        mRelativeDataInsertionTime = new CircularArray<>(MAX_DATA_POINT);
         mDataPaint = new Paint();
         mDataPaint.setColor(Color.RED);
         mDataPaint.setStyle(Paint.Style.STROKE);
@@ -42,6 +46,21 @@ public class ScalarSensor2DPlotView extends Sensor2DPlotView {
         mDataPath = new Path();
         mMeanPath = new Path();
         mStdPath = new Path();
+
+        mHandler = new Handler();
+        mRunnable = new Runnable() {
+            @Override
+            public void run() {
+                mHandler.postDelayed(mRunnable, SensorDetailActivity.SENSOR_SAMPLE_DELAY_IN_MILLISECONDS / 2);
+                if (!mData.isEmpty()) {
+                    float lastData = mData.getLast();
+                    addData(lastData);
+                }
+                invalidate();
+            }
+        };
+        mStartupTime = System.currentTimeMillis();
+        mHandler.postDelayed(mRunnable, SensorDetailActivity.SENSOR_SAMPLE_DELAY_IN_MILLISECONDS / 2);
     }
 
     public ScalarSensor2DPlotView(Context context) {
@@ -71,6 +90,7 @@ public class ScalarSensor2DPlotView extends Sensor2DPlotView {
                 mData.popFirst();
                 mMean.popFirst();
                 mStd.popFirst();
+                mRelativeDataInsertionTime.popFirst();
             }
         }
         sum_0 += 1;
@@ -83,7 +103,8 @@ public class ScalarSensor2DPlotView extends Sensor2DPlotView {
         } else {
             mStd.addLast(0.0f);
         }
-        mTotalDataCount++;
+        long currentReadingTime = System.currentTimeMillis();
+        mRelativeDataInsertionTime.addLast(currentReadingTime - mStartupTime);
     }
 
     @Override
@@ -97,20 +118,23 @@ public class ScalarSensor2DPlotView extends Sensor2DPlotView {
 
         // update data scale
         // start from 1 since no std exists for one datapoint
+        mMaxX = Long.MIN_VALUE;
         mMaxY = Float.MIN_VALUE;
+        mMinX = Long.MAX_VALUE;
         mMinY = Float.MAX_VALUE;
-        for (int i = 1; i < mData.size(); ++i) {
+        for (int i = 0; i < mData.size(); ++i) {
             mMaxY = Math.max(mMaxY, mData.get(i));
             mMaxY = Math.max(mMaxY, mMean.get(i));
             mMaxY = Math.max(mMaxY, mStd.get(i));
             mMinY = Math.min(mMinY, mData.get(i));
             mMinY = Math.min(mMinY, mMean.get(i));
             mMinY = Math.min(mMinY, mStd.get(i));
+
+            mMinX = Math.min(mMinX, mRelativeDataInsertionTime.get(i));
+            mMaxX = Math.max(mMaxX, mRelativeDataInsertionTime.get(i));
         }
         mScaleY = Math.abs(mMaxY - mMinY);
-        mScaleX = mData.size();
-        mMinX = mTotalDataCount - mData.size();
-        mMaxX = mTotalDataCount;
+        mScaleX = Math.abs(mMaxX - mMinX);
 
         drawAxis(canvas);
         drawGrid(canvas);
@@ -124,7 +148,7 @@ public class ScalarSensor2DPlotView extends Sensor2DPlotView {
             float data_y = getCanvasYForValueY(mData.get(0));
             float mean_y = getCanvasYForValueY(mMean.get(0));
             float std_y = getCanvasYForValueY(mStd.get(0));
-            float x = getCanvasXForValueX(0);
+            float x = getCanvasXForValueX(mRelativeDataInsertionTime.get(0));
             mDataPath.moveTo(x, data_y);
             mMeanPath.moveTo(x, mean_y);
             mStdPath.moveTo(x, std_y);
@@ -133,7 +157,7 @@ public class ScalarSensor2DPlotView extends Sensor2DPlotView {
             float data_y = getCanvasYForValueY(mData.get(i));
             float mean_y = getCanvasYForValueY(mMean.get(i));
             float std_y = getCanvasYForValueY(mStd.get(i));
-            float x = getCanvasXForValueX(i);// / (float) MAX_DATA_POINT);
+            float x = getCanvasXForValueX(mRelativeDataInsertionTime.get(i));
             mDataPath.lineTo(x, data_y);
             mMeanPath.lineTo(x, mean_y);
             mStdPath.lineTo(x, std_y);
@@ -141,9 +165,6 @@ public class ScalarSensor2DPlotView extends Sensor2DPlotView {
         canvas.drawPath(mDataPath, mDataPaint);
         canvas.drawPath(mMeanPath, mMeanPaint);
         canvas.drawPath(mStdPath, mStdPaint);
-
-        // draw three curves
-        invalidate();
     }
 }
 
