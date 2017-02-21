@@ -19,12 +19,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private Sensor mAccSensor;
     private Sensor mGyroSensor;
     private Sensor mMagneticSensor;
+    private Sensor mLinearAccSensor;
 
     private TextView mLightSensorReading;
     private TextView mOrientationSensorReading;
     private TextView mAccSensorReading;
     private TextView mGyroSensorReading;
     private TextView mMagneticSensorReading;
+    private TextView mLinearAccSensorReading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         mAccSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mGyroSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
         mMagneticSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+        mLinearAccSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
 
         // Setup orientation sensor reading
         TextView tv = (TextView) findViewById(R.id.tv_orientation_sensor_name_value);
@@ -108,17 +111,37 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         tv = (TextView) findViewById(R.id.tv_magnetic_sensor_range_value);
         tv.setText(String.valueOf(mMagneticSensor.getMaximumRange() + " uT"));
 
+        // setup linear acc sensor reading
+        tv = (TextView) findViewById(R.id.tv_linear_acc_sensor_name_value);
+        tv.setText(mLinearAccSensor.getName());
+        tv = (TextView) findViewById(R.id.tv_linear_acc_sensor_power_value);
+        tv.setText(String.valueOf(mLinearAccSensor.getPower()));
+        tv = (TextView) findViewById(R.id.tv_linear_acc_sensor_vendor_value);
+        tv.setText(mLinearAccSensor.getVendor());
+        tv = (TextView) findViewById(R.id.tv_linear_acc_sensor_version_value);
+        tv.setText(String.valueOf(mLinearAccSensor.getVersion()));
+        tv = (TextView) findViewById(R.id.tv_linear_acc_sensor_resolution_value);
+        tv.setText(String.valueOf(mLinearAccSensor.getResolution() + " m/s2"));
+        tv = (TextView) findViewById(R.id.tv_linear_acc_sensor_range_value);
+        tv.setText(String.valueOf(mLinearAccSensor.getMaximumRange() + " m/s2"));
+
         mOrientationSensorReading = (TextView) findViewById(R.id.tv_orientation_sensor_reading_value);
         mLightSensorReading = (TextView) findViewById(R.id.tv_light_sensor_reading_value);
         mAccSensorReading = (TextView) findViewById(R.id.tv_acc_sensor_reading_value);
         mGyroSensorReading = (TextView) findViewById(R.id.tv_gyro_sensor_reading_value);
         mMagneticSensorReading = (TextView) findViewById(R.id.tv_magnetic_sensor_reading_value);
+        mLinearAccSensorReading = (TextView) findViewById(R.id.tv_linear_acc_sensor_reading_value);
     }
 
     public void onClick(View view) {
         int id = view.getId();
         Intent intent;
         switch (id) {
+            case R.id.linear_acc_summary_card:
+                intent = new Intent(this, AccelerometerSensorDetailActivity.class);
+                intent.putExtra(SensorDetailActivity.EXTRA_KEY, Sensor.TYPE_LINEAR_ACCELERATION);
+                startActivity(intent);
+                break;
             case R.id.acc_summary_card:
                 intent = new Intent(this, AccelerometerSensorDetailActivity.class);
                 intent.putExtra(SensorDetailActivity.EXTRA_KEY, Sensor.TYPE_ACCELEROMETER);
@@ -160,6 +183,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         super.onResume();
         mSensorManager.registerListener(this, mLightSensor, SensorManager.SENSOR_DELAY_NORMAL);
         mSensorManager.registerListener(this, mAccSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(this, mLinearAccSensor, SensorManager.SENSOR_DELAY_NORMAL);
         mSensorManager.registerListener(this, mGyroSensor, SensorManager.SENSOR_DELAY_NORMAL);
         mSensorManager.registerListener(this, mMagneticSensor, SensorManager.SENSOR_DELAY_NORMAL);
         mSensorManager.registerListener(this, mOrientationSensor, SensorManager.SENSOR_DELAY_NORMAL);
@@ -172,6 +196,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             case Sensor.TYPE_LIGHT:
                 String lightSensorReadingString = String.format("%.2f", event.values[0]) + " lx";
                 mLightSensorReading.setText(lightSensorReadingString);
+                break;
+            case Sensor.TYPE_LINEAR_ACCELERATION:
+                String linearAccSensorReadingString = String.format("%.2f", event.values[0]) + ", "
+                        + String.format("%.2f", event.values[1]) + ", "
+                        + String.format("%.2f", event.values[2]) + " m/s2";
+                mLinearAccSensorReading.setText(linearAccSensorReadingString);
                 break;
             case Sensor.TYPE_ACCELEROMETER:
                 String accSensorReadingString = String.format("%.2f", event.values[0]) + ", "

@@ -13,5 +13,6 @@
     <string name="cardview_acc_label">Accelerometer</string>
     <string name="cardview_gyro_label">Gyro</string>
     <string name="cardview_magnetic_label">Magnetic Field</string>
+    <string name="cardview_linear_acc_label">Linear Accelerometer</string>
     <string name="action_back_label">Back</string>
 </resources>

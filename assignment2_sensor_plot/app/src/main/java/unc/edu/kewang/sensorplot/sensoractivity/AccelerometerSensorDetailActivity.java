@@ -58,6 +58,10 @@ public class AccelerometerSensorDetailActivity extends SensorDetailActivity impl
         mSensorPlotCardView.addView(mScalarPlot);
 
         String title = "Accelerometer";
+        if (mSensorType == Sensor.TYPE_LINEAR_ACCELERATION) {
+            title = "Linear Accelerometer";
+        }
+
         mScalarPlot.setUnits("", "m/s2");
         mScalarPlot.setLegends(new String[]{"Acc", "Mean", "Std"});
         mVectorPlot.setUnits("", "m/s2");

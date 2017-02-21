@@ -54,9 +54,9 @@ public class LightSensorDetailActivity extends SensorDetailActivity implements S
         mDisplayStatistics = true;
         mSensorPlotCardView.addView(mScalarPlot);
 
-        String title = "Orientation";
-        mScalarPlot.setUnits("", "degrees");
-        mScalarPlot.setLegends(new String[]{"Orientation", "Mean", "Std"});
+        String title = "Light";
+        mScalarPlot.setUnits("", "lx");
+        mScalarPlot.setLegends(new String[]{"Lux", "Mean", "Std"});
         setTitle(title);
 
         mBulbImageView = new ImageView(this);
