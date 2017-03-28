@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">GeoMusicPlayer</string>
+    <string name="no_location_data_provided">No location data provided.</string>
+    <string name="service_not_available">404</string>
+    <string name="invalid_lat_lng_parameter">Invalid lat/lng values.</string>
+    <string name="no_address_found">No address found.</string>
+    <string name="address_found">Address found.</string>
+    <string name="geofence_not_available">Geo fence not available</string>
+    <string name="geofence_too_many_geofences">Too many geo-fences</string>
+    <string name="geofence_too_many_pending_intents">Too many pending intents</string>
+    <string name="unknown_geofence_errors">Uknown geofence erros.</string>
+    <string name="ok">Ok</string>
+    <string name="permission_rationale">We need this permission!</string>
+    <string name="permission_denied">Cannot move on without permission!</string>
+</resources>
