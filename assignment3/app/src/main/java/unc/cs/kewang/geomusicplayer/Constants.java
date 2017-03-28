@@ -5,37 +5,40 @@ import com.google.android.gms.maps.model.LatLng;
 import java.util.HashMap;
 
 
-public final class Constants {
-    public static final String PACKAGE_NAME = "unc.cs.kewang.geomusicplayer";
+final class Constants {
+    static final String PACKAGE_NAME = "unc.cs.kewang.geomusicplayer";
 
-    public static final int GEOCODER_SUCCESS_RESULT = 0;
-    public static final int GEOCODER_FAILURE_RESULT = 1;
-    public static final String LOCATION_DATA_EXTRA = PACKAGE_NAME + ".LOCATION_DATA_EXTRA";
-    public static final String GEOCODER_BROADCAST_ACTION = PACKAGE_NAME + ".GEOCODER_BROADCAST";
-    public static final String GEOCODER_ADDRESS_KEY = PACKAGE_NAME + ".GEOCODER_ADDRESS_KEY";
-    public static final String GEOCODER_RESULT_STATUS_KEY = PACKAGE_NAME + ".GEOCODER_RESULT_STATUS_KEY";
+    static final int GEOCODER_SUCCESS_RESULT = 0;
+    static final int GEOCODER_FAILURE_RESULT = 1;
+    static final String LOCATION_DATA_EXTRA = PACKAGE_NAME + ".LOCATION_DATA_EXTRA";
+    static final String GEOCODER_BROADCAST_ACTION = PACKAGE_NAME + ".GEOCODER_BROADCAST";
+    static final String GEOCODER_ADDRESS_KEY = PACKAGE_NAME + ".GEOCODER_ADDRESS_KEY";
+    static final String GEOCODER_RESULT_STATUS_KEY = PACKAGE_NAME + ".GEOCODER_RESULT_STATUS_KEY";
 
-    public static final long GEOFENCE_EXPIRATION_IN_HOURS = 12;
-    public static final long GEOFENCE_EXPIRATION_IN_MILLISECONDS = GEOFENCE_EXPIRATION_IN_HOURS * 3600 * 1000;
-    public static final float GEOFENCE_RADIUS_IN_METERS = 100.0f;
-    public static final String GEOFENCE_BROADCAST_ACTION = PACKAGE_NAME + ".GENFENCE_BROADCAST";
-    public static final String GEOFENCE_TRANSITION_TYPE_KEY = PACKAGE_NAME + ".GENFENCE_TRANSITION_TYPE";
-    public static final String GEOFENCE_PLACE_NAME_KEY = PACKAGE_NAME + ".GENFENCE_PLACE_NAME";
-    public static final String GEOFENCE_TRANSITION_ENTER = "GENFENCE_ENTER";
-    public static final String GEOFENCE_TRANSITION_EXIT = "GENFENCE_EXIT";
+    static final long GEOFENCE_EXPIRATION_IN_HOURS = 12;
+    static final long GEOFENCE_EXPIRATION_IN_MILLISECONDS = GEOFENCE_EXPIRATION_IN_HOURS * 3600 * 1000;
+    static final String GEOFENCE_BROADCAST_ACTION = PACKAGE_NAME + ".GENFENCE_BROADCAST";
+    static final String GEOFENCE_TRANSITION_TYPE_KEY = PACKAGE_NAME + ".GENFENCE_TRANSITION_TYPE";
+    static final String GEOFENCE_PLACE_NAME_KEY = PACKAGE_NAME + ".GENFENCE_PLACE_NAME";
+    static final String GEOFENCE_TRANSITION_ENTER = "GENFENCE_ENTER";
+    static final String GEOFENCE_TRANSITION_EXIT = "GENFENCE_EXIT";
 
-    public static final HashMap<String, LatLng> UNC_LANDMARKS = new HashMap<String, LatLng>();
-    public static final HashMap<String, Integer> GEOFENCE_MUSIC_ID = new HashMap<String, Integer>();
-    public static final HashMap<String, String> GEOFENCE_MUSIC_NAME = new HashMap<String, String>();
+    static final HashMap<String, LatLng> UNC_LANDMARKS_GPS = new HashMap<>();
+    static final HashMap<String, Float> UNC_LANDMARKS_RADIUS = new HashMap<>();
+    static final HashMap<String, Integer> GEOFENCE_MUSIC_ID = new HashMap<>();
+    static final HashMap<String, String> GEOFENCE_MUSIC_NAME = new HashMap<>();
 
-    public static final String SITTERSON_NAME = "Sitterson";
-    public static final String OLD_WELL_NAME = "Old Well";
-    public static final String POLK_PLACE_NAME = "Polk Place";
+    static final String SITTERSON_NAME = "Sitterson";
+    static final String OLD_WELL_NAME = "Old Well";
+    static final String POLK_PLACE_NAME = "Polk Place";
 
     static {
-        UNC_LANDMARKS.put(SITTERSON_NAME, new LatLng(35.909974, -79.053086));
-        UNC_LANDMARKS.put(OLD_WELL_NAME, new LatLng(35.911991, -79.051182));
-        UNC_LANDMARKS.put(POLK_PLACE_NAME, new LatLng(35.910889, -79.050642));
+        UNC_LANDMARKS_GPS.put(SITTERSON_NAME, new LatLng(35.909894, -79.053134));
+        UNC_LANDMARKS_GPS.put(OLD_WELL_NAME, new LatLng(35.911991, -79.051182));
+        UNC_LANDMARKS_GPS.put(POLK_PLACE_NAME, new LatLng(35.910889, -79.050642));
+        UNC_LANDMARKS_RADIUS.put(SITTERSON_NAME, 60.0f);
+        UNC_LANDMARKS_RADIUS.put(OLD_WELL_NAME, 50.0f);
+        UNC_LANDMARKS_RADIUS.put(POLK_PLACE_NAME, 50.0f);
         GEOFENCE_MUSIC_ID.put(SITTERSON_NAME, R.raw.beauty_beast);
         GEOFENCE_MUSIC_ID.put(OLD_WELL_NAME, R.raw.how_far_i_will_go);
         GEOFENCE_MUSIC_ID.put(POLK_PLACE_NAME, R.raw.let_it_go);

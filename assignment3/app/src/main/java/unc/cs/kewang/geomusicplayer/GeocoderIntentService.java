@@ -60,9 +60,9 @@ public class GeocoderIntentService extends IntentService {
             broadcastResultToReceiver(Constants.GEOCODER_FAILURE_RESULT, errorMessage);
         } else {
             Address address = addresses.get(0);
-            ArrayList<String> addressFragments = new ArrayList<String>();
+            ArrayList<String> addressFragments = new ArrayList<>();
 
-            for(int i = 0; i < address.getMaxAddressLineIndex(); ++i) {
+            for (int i = 0; i < address.getMaxAddressLineIndex(); ++i) {
                 addressFragments.add(address.getAddressLine(i));
             }
             String correct_result = TextUtils.join(System.getProperty("line.separator"), addressFragments);

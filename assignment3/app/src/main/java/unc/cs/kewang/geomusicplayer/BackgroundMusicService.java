@@ -28,7 +28,7 @@ public class BackgroundMusicService extends Service {
     public void onCreate() {
         super.onCreate();
 
-        mMediaPlayerHashMap = new HashMap<String, MediaPlayer>();
+        mMediaPlayerHashMap = new HashMap<>();
         for (HashMap.Entry<String, Integer> entry : Constants.GEOFENCE_MUSIC_ID.entrySet()) {
             String placeName = entry.getKey();
             int musicId = entry.getValue();
@@ -56,7 +56,6 @@ public class BackgroundMusicService extends Service {
         for (HashMap.Entry<String, MediaPlayer> entry : mMediaPlayerHashMap.entrySet()) {
             String place_name = entry.getKey();
             MediaPlayer mediaPlayer = entry.getValue();
-            mediaPlayer.stop();
             mediaPlayer.reset();
             mediaPlayer.release();
             Log.i(TAG, "Released music player for place:" + place_name);
