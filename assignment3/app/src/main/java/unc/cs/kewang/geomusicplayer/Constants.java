@@ -39,12 +39,12 @@ final class Constants {
         UNC_LANDMARKS_RADIUS.put(SITTERSON_NAME, 60.0f);
         UNC_LANDMARKS_RADIUS.put(OLD_WELL_NAME, 50.0f);
         UNC_LANDMARKS_RADIUS.put(POLK_PLACE_NAME, 50.0f);
-        GEOFENCE_MUSIC_ID.put(SITTERSON_NAME, R.raw.beauty_beast);
-        GEOFENCE_MUSIC_ID.put(OLD_WELL_NAME, R.raw.how_far_i_will_go);
-        GEOFENCE_MUSIC_ID.put(POLK_PLACE_NAME, R.raw.let_it_go);
-        GEOFENCE_MUSIC_NAME.put(SITTERSON_NAME, "Overture from Beauty and Beast");
-        GEOFENCE_MUSIC_NAME.put(OLD_WELL_NAME, "How Far I'll Go from Moana");
-        GEOFENCE_MUSIC_NAME.put(POLK_PLACE_NAME, "Let It Go from Frozen");
+        GEOFENCE_MUSIC_ID.put(SITTERSON_NAME, R.raw.cake_by_the_ocean_by_dnce);
+        GEOFENCE_MUSIC_ID.put(OLD_WELL_NAME, R.raw.carolina_in_my_mind_by_james_taylor);
+        GEOFENCE_MUSIC_ID.put(POLK_PLACE_NAME, R.raw.waves_by_kanye_west);
+        GEOFENCE_MUSIC_NAME.put(SITTERSON_NAME, "Cake by the Ocean by DNCE");
+        GEOFENCE_MUSIC_NAME.put(OLD_WELL_NAME, "Carolina in My Mind by James Taylor");
+        GEOFENCE_MUSIC_NAME.put(POLK_PLACE_NAME, "Waves By Kanye West");
     }
 
 }
