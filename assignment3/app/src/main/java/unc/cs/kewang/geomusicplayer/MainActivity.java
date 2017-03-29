@@ -140,6 +140,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         super.onDestroy();
         mLocalBroadcastManager.unregisterReceiver(mGeocoderBroadcastReceiver);
         mLocalBroadcastManager.unregisterReceiver(mGeofenceBroadcastReceiver);
+        stopService(new Intent(this, BackgroundMusicService.class));
+        stopService(new Intent(this, GeocoderIntentService.class));
+        stopService(new Intent(this, GeofenceIntentService.class));
     }
 
     private synchronized void buildGoogleApiClient() {
