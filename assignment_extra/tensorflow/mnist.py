@@ -2,6 +2,7 @@ from __future__ import print_function
 import shutil
 import os.path
 import tensorflow as tf
+import numpy as np
 from tensorflow.examples.tutorials.mnist import input_data
 
 EXPORT_DIR = './model'
@@ -12,9 +13,9 @@ if os.path.exists(EXPORT_DIR):
 mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
 
 # Parameters
-learning_rate = 0.001
-training_iters = 5000
-batch_size = 32
+learning_rate = 0.01
+training_iters = 1000000
+batch_size = 256
 display_step = 10
 
 # Network Parameters
