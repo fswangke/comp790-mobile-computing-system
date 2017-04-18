@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">NeuralDigitRecognizer</string>
+    <string name="clear_button_text">Clear</string>
+    <string name="recognize_button_text">Recognize</string>
 </resources>
