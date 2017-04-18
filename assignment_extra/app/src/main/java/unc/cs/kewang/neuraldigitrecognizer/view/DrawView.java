@@ -177,11 +177,17 @@ public class DrawView extends View {
 
         for (int i = 0; i < pixels.length; ++i) {
             int color = rawPixels[i];
-            float red = (color & 0x00FF0000) / 255.0f;
-            float green = (color & 0x0000FF00) / 255.0f;
-            float blue = (color & 0x000000FF) / 255.0f;
-            pixels[i] = 1.0f - 0.21f * red + 0.72f * green + 0.07f * blue;
+            int red = (color & 0x00FF0000) >> 16;
+            int green = (color & 0x0000FF00) >> 8;
+            int blue = (color & 0x000000FF);
+            pixels[i] = Math.max(0.0f, Math.min(1.0f, 1.0f - (0.21f * red + 0.72f * green + 0.07f * blue) / 255.0f));
         }
+//        for (int i = 0; i < pixels.length; ++i) {
+//            // Set 0 for white and 255 for black pixel
+//            int pix = rawPixels[i];
+//            int b = pix & 0xff;
+//            pixels[i] = 0xff - b;
+//        }
         return pixels;
     }
 }
