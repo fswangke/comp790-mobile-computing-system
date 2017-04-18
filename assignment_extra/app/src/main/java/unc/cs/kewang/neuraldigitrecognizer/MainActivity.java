@@ -10,8 +10,6 @@ import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import org.tensorflow.contrib.android.TensorFlowInferenceInterface;
-
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -33,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     private Button mColorButton;
     private TextView mDigitTextView;
     private TextView mProbTextView;
-    private static final String MODEL_FILE = "file:///android_asset/mnist0.pb";
+    private static final String MODEL_FILE = "file:///android_asset/mnist.pb";
     private static final String TF_INPUT_NAME = "input";
     private static final String TF_OUTPUT_NAME = "output";
     private Executor executor = Executors.newSingleThreadExecutor();

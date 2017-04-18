@@ -19,6 +19,7 @@ import android.view.View;
 
 public class DrawView extends View {
     private static final String TAG = DrawView.class.getSimpleName();
+
     public DrawView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
@@ -166,7 +167,7 @@ public class DrawView extends View {
     }
 
     public float[] getImagePixels() {
-        if(mBitmap == null) {
+        if (mBitmap == null) {
             return null;
         }
 
@@ -174,8 +175,12 @@ public class DrawView extends View {
         int[] rawPixels = new int[mCanvasHeight * mCanvasWidth];
         mBitmap.getPixels(rawPixels, 0, mCanvasWidth, 0, 0, mCanvasWidth, mCanvasHeight);
 
-        for(int i = 0; i < pixels.length; ++i) {
-            pixels[i] = rawPixels[i];
+        for (int i = 0; i < pixels.length; ++i) {
+            int color = rawPixels[i];
+            float red = (color & 0x00FF0000) / 255.0f;
+            float green = (color & 0x0000FF00) / 255.0f;
+            float blue = (color & 0x000000FF) / 255.0f;
+            pixels[i] = 1.0f - 0.21f * red + 0.72f * green + 0.07f * blue;
         }
         return pixels;
     }
