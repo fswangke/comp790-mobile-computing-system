@@ -2,4 +2,5 @@
     <string name="app_name">NeuralDigitRecognizer</string>
     <string name="clear_button_text">Clear</string>
     <string name="recognize_button_text">Recognize</string>
+    <string name="quantize_button_text">Fast Recog</string>
 </resources>

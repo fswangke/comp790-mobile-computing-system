@@ -1,98 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
+    android:id="@+id/root_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="unc.cs.kewang.neuraldigitrecognizer.MainActivity">
 
-    <unc.cs.kewang.neuraldigitrecognizer.view.DrawView
-        android:id="@+id/draw_view"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
-
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/tv_digit"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:textSize="32sp"
-            />
-        <TextView
-            android:id="@+id/tv_prob"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:textSize="32sp"
-            />
-    </LinearLayout>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <Button
-            android:text="@string/clear_button_text"
-            android:id="@+id/clear_canvas_button"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
-        <Button
-            android:text="@string/recognize_button_text"
-            android:id="@+id/recognize_digit_button"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
-    </LinearLayout>
+        <unc.cs.kewang.neuraldigitrecognizer.view.DrawView
+            android:id="@+id/draw_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_digit"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textSize="28sp" />
+
+            <TextView
+                android:id="@+id/tv_prob"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textSize="28sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/clear_canvas_button"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/clear_button_text" />
+
+            <Button
+                android:id="@+id/recognize_digit_button"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/recognize_button_text" />
+
+            <Button
+                android:id="@+id/fast_recognize_digit_button"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/quantize_button_text" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="8"
-            android:orientation="vertical">
-            <SeekBar
-                android:id="@+id/r_slider"
-                android:progressTint="@color/colorRed"
-                android:thumbTint="@color/colorRed"
-                android:layout_width="match_parent"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:max="255"
-                android:padding="4dp"/>
-            <SeekBar
-                android:id="@+id/g_slider"
-                android:progressTint="@color/colorGreen"
-                android:thumbTint="@color/colorGreen"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:max="255"
-                android:padding="4dp"/>
-            <SeekBar
-                android:id="@+id/b_slider"
-                android:progressTint="@color/colorBlue"
-                android:thumbTint="@color/colorBlue"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:max="255"
-                android:padding="4dp"/>
+                android:layout_weight="8"
+                android:orientation="vertical">
+
+                <SeekBar
+                    android:id="@+id/r_slider"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:max="255"
+                    android:padding="4dp"
+                    android:progressTint="@color/colorRed"
+                    android:thumbTint="@color/colorRed" />
+
+                <SeekBar
+                    android:id="@+id/g_slider"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:max="255"
+                    android:padding="4dp"
+                    android:progressTint="@color/colorGreen"
+                    android:thumbTint="@color/colorGreen" />
+
+                <SeekBar
+                    android:id="@+id/b_slider"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:max="255"
+                    android:padding="4dp"
+                    android:progressTint="@color/colorBlue"
+                    android:thumbTint="@color/colorBlue" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/color_button"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:padding="32dp" />
 
         </LinearLayout>
-        <Button
-            android:id="@+id/color_button"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:padding="32dp"
-            android:layout_weight="2"/>
 
     </LinearLayout>
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/tf_runtime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="10sp"/>
+</FrameLayout>

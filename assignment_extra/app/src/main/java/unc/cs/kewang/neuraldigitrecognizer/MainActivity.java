@@ -4,6 +4,7 @@ import android.graphics.PointF;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +18,10 @@ import unc.cs.kewang.neuraldigitrecognizer.view.DrawTrajectory;
 import unc.cs.kewang.neuraldigitrecognizer.view.DrawView;
 
 public class MainActivity extends AppCompatActivity implements View.OnTouchListener, SeekBar.OnSeekBarChangeListener, View.OnClickListener {
+    static {
+        System.loadLibrary("tensorflow_inference");
+    }
+
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private DrawTrajectory mTrajectories;
@@ -28,14 +33,18 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     private SeekBar mBlueSeekBar;
     private Button mClearButton;
     private Button mDetectButton;
+    private Button mFastDetectButton;
     private Button mColorButton;
     private TextView mDigitTextView;
     private TextView mProbTextView;
-    private static final String MODEL_FILE = "file:///android_asset/mnist_model_graph.pb";
-    private static final String TF_INPUT_NAME = "input";
+    private TextView mTfRunStats;
+    private static final String FULL_MODEL_FILE = "file:///android_asset/mnist_frozen.pb";
+    private static final String QUANTIZED_MODEL_FILE = "file:///android_asset/mnist_quantized.pb";
+    private static final String TF_INPUT_NAME = "pixels";
     private static final String TF_OUTPUT_NAME = "output";
     private Executor executor = Executors.newSingleThreadExecutor();
     private DigitClassifier mDigitClassifier;
+    private DigitClassifier mQuantizedDigitClassifier;
 
     private int mRed = 0;
     private int mGreen = 0;
@@ -44,30 +53,66 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     private float[] mDigitPixels = new float[MNIST_PIXEL_HEIGHT * MNIST_PIXEL_WIDTH];
     private float[] mDigitProbs;
 
+    private int softmax(float[] logits) {
+        int max_index = 0;
+        float max_logit = Float.MIN_VALUE;
+        for (int i = 0; i < logits.length; ++i) {
+            if (logits[i] > max_logit) {
+                max_logit = logits[i];
+                max_index = i;
+            }
+        }
+
+        float softmax_sum = 0;
+        for (int i = 0; i < logits.length; ++i) {
+            logits[i] -= max_logit;
+            logits[i] = (float) Math.exp(logits[i]);
+            softmax_sum += logits[i];
+        }
+
+        for (int i = 0; i < logits.length; ++i) {
+            logits[i] /= softmax_sum;
+        }
+
+        return max_index;
+    }
+
     @Override
     public void onClick(View v) {
-        if (v == mClearButton) {
-            mTrajectories.clear();
-            mDrawView.reset();
-            mDrawView.invalidate();
+        int id = v.getId();
+        int digitClass = 0;
+        float digitProb = 0.0f;
+        switch (id) {
+            case R.id.clear_canvas_button:
+                mTrajectories.clear();
+                mDrawView.reset();
+                mDrawView.invalidate();
 
-            mDigitTextView.setText("");
-            mProbTextView.setText("");
-        } else if (v == mDetectButton) {
-            mDigitPixels = mDrawView.getImagePixels();
-            mDigitProbs = mDigitClassifier.classifyImage(mDigitPixels);
+                mDigitTextView.setText("");
+                mProbTextView.setText("");
+                break;
+            case R.id.fast_recognize_digit_button:
+                mDigitPixels = mDrawView.getImagePixels();
+                mDigitProbs = mQuantizedDigitClassifier.classifyImage(mDigitPixels);
 
-            int digitClass = 0;
-            float digitProb = Float.MIN_VALUE;
-            for (int i = 0; i < mDigitProbs.length; ++i) {
-                if (mDigitProbs[i] > digitProb) {
-                    digitProb = mDigitProbs[i];
-                    digitClass = i;
-                }
-            }
+                digitClass = softmax(mDigitProbs);
+                digitProb = mDigitProbs[digitClass];
 
-            mDigitTextView.setText("Digit:" + Integer.toString(digitClass));
-            mProbTextView.setText("Prob:" + Float.toString(digitProb));
+                mDigitTextView.setText(String.format("Digit: %d", digitClass));
+                mProbTextView.setText(String.format("Probab: %.5f", digitProb));
+                mTfRunStats.setText(mQuantizedDigitClassifier.getRuntimeStats());
+                break;
+            case R.id.recognize_digit_button:
+                mDigitPixels = mDrawView.getImagePixels();
+                mDigitProbs = mDigitClassifier.classifyImage(mDigitPixels);
+
+                digitClass = softmax(mDigitProbs);
+                digitProb = mDigitProbs[digitClass];
+
+                mDigitTextView.setText(String.format("Digit: %d", digitClass));
+                mProbTextView.setText(String.format("Probab: %.5f", digitProb));
+                mTfRunStats.setText(mDigitClassifier.getRuntimeStats());
+                break;
         }
     }
 
@@ -122,21 +167,25 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
         mClearButton = (Button) findViewById(R.id.clear_canvas_button);
         mDetectButton = (Button) findViewById(R.id.recognize_digit_button);
+        mFastDetectButton = (Button) findViewById(R.id.fast_recognize_digit_button);
         mColorButton = (Button) findViewById(R.id.color_button);
         mDrawingColor = getCurrentColor();
         mColorButton.setBackgroundColor(mDrawingColor);
         mClearButton.setOnClickListener(this);
         mDetectButton.setOnClickListener(this);
+        mFastDetectButton.setOnClickListener(this);
 
         mDigitTextView = (TextView) findViewById(R.id.tv_digit);
         mProbTextView = (TextView) findViewById(R.id.tv_prob);
+        mTfRunStats = (TextView) findViewById(R.id.tf_runtime);
 
         // load Tensorflow libraries
         executor.execute(new Runnable() {
             @Override
             public void run() {
                 try {
-                    mDigitClassifier = DigitClassifier.create(getAssets(), MODEL_FILE, MNIST_PIXEL_WIDTH, TF_INPUT_NAME, TF_OUTPUT_NAME);
+                    mDigitClassifier = DigitClassifier.create(getAssets(), FULL_MODEL_FILE, MNIST_PIXEL_WIDTH, TF_INPUT_NAME, TF_OUTPUT_NAME);
+                    mQuantizedDigitClassifier = DigitClassifier.create(getAssets(), QUANTIZED_MODEL_FILE, MNIST_PIXEL_WIDTH, TF_INPUT_NAME, TF_OUTPUT_NAME);
                     Log.d(TAG, "Loaded libraries");
                 } catch (final Exception e) {
                     throw new RuntimeException("Error loading tensorflow library.", e);
@@ -193,4 +242,16 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         return getCurrentColor(mRed, mGreen, mBlue);
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
+            if (mTfRunStats.getVisibility() == View.VISIBLE) {
+                mTfRunStats.setVisibility(View.INVISIBLE);
+            } else {
+                mTfRunStats.setVisibility(View.VISIBLE);
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 }

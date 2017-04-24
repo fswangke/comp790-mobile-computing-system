@@ -16,6 +16,7 @@ public class DigitClassifier {
     private String outputName;
     private String[] outputNames;
     private float[] outputs;
+    private float[] keepProb = new float[]{1.0f};
     private int inputSize;
     private static final String TAG = DigitClassifier.class.getSimpleName();
     private TensorFlowInferenceInterface mTFInference;
@@ -32,7 +33,7 @@ public class DigitClassifier {
             throw new RuntimeException("Error loading tensorflow library.", e);
         }
 
-        int numClasses = (int)digitClassifier.mTFInference.graph().operation(outputName).output(0).shape().size(1);
+        int numClasses = (int) digitClassifier.mTFInference.graph().operation(outputName).output(0).shape().size(1);
 
         digitClassifier.outputNames = new String[]{outputName};
         digitClassifier.outputs = new float[numClasses];
@@ -42,9 +43,13 @@ public class DigitClassifier {
 
     public float[] classifyImage(final float[] pixels) {
         mTFInference.feed(inputName, pixels, 1, inputSize * inputSize);
-        mTFInference.run(outputNames);
-        mTFInference.fetch(outputName,outputs);
+        mTFInference.feed("keep_prob", keepProb, 1);
+        mTFInference.run(outputNames, true);
+        mTFInference.fetch(outputName, outputs);
 
         return outputs;
+    }
+    public String getRuntimeStats() {
+        return mTFInference.getStatString();
     }
 }
